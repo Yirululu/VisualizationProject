@@ -1,0 +1,99 @@
+---
+title: "Mastering Departures: A Guide to Select Reliable Carriers"
+author: "Yiru"
+date: "Feb 28th"
+output: 
+  html_document:
+    theme: flatly
+    toc: true
+    toc_float: true
+    code_download: true
+---
+
+```{r, warning = FALSE, message = FALSE, include = FALSE}
+# Load any R Packages you may need
+library(tidyverse)
+library(nycflights13)
+library(ggplot2)
+```
+
+# Introductory
+
+
+This dataset shows on-time data for all flights that departed NYC (i.e. JFK, LGA or EWR) in 2013. By analyzing departure and arrival delays that across various carriers in 2013, we aimed to gain insights into the punctuality of different carriers and provide the most valuable information for the users. We use the package "nycflights13", which contains a series of variables such as departure delay, arrival delay, scheduled departure times, and scheduled arrival times. Through this, I created visual representations to compare and contrast the flights frequency and departure delay experiences among different carriers. Our findings, presented through bar plots, offer a deep understanding of the variability and median delays associated with each carrier, can be a good reference for users to choose a more reliable company.
+
+
+# Heading 1: Flights Frequency
+
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
+flights %>%
+  group_by(carrier) %>%
+  summarise(count = n()) %>%
+  ggplot(aes(x = carrier, y = count)) +
+  geom_bar(stat = "identity", fill = "hotpink", color = "skyblue") +
+  labs(title = "Flight Counts by Different Carriers",
+       x = "Carrier",
+       y = "Number of Flights") +
+  theme(axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12))
+```
+
+
+
+This bar plot illustrates the number of flights operated by each carrier departing from New York City airports in 2013 from the R package *nycflights13*. Each bar represents a different airline, with the height of the bar indicating the count of flights operated by that carrier. By visualizing the flight counts for each carrier, viewers can discern the varying market presence and operational scale of different airlines within the dataset. This information is valuable for users to understand the distribution of air traffic among carriers and may provide insights into market share, route popularity, and overall airline performance. 
+
+- Motivation: This information is valuable for understanding the distribution of air traffic among carriers and may provide insights into market share, route popularity, and overall airline performance, also give passengers a reference when choosing the carrier. 
+
+- Context: Provided by different carriers and the Number of Flights each carrier has in 2013. 
+
+- The reason why I choose bar plot is because bar plots are particularly suitable for displaying categorical data, such as airline carriers in this case, and their corresponding numerical values, such as the count of flights.  The length of each bar corresponds directly to the magnitude of the numerical value it represents, making it intuitive for viewers to interpret. By visualizing the number of flights for each carrier, users can quickly identify which carriers operate more or fewer flights. 
+
+- Color: Hotpink and skyblue are visually distinct colors that help differentiate the bars from the background and each other, making users better recognize the length and border of different bars.
+
+- Size: By setting the x and y axis to size 12 can enhance readability, making it easier for viewers to interpret the plot and understand the data.
+
+- Visual cues: For this bar plot, each carrier has its own bar and each bar is different in height because each carrier has different flight frequency in 2013, so the visual cues are position and length.
+
+
+**By analyzing this bar plot, we can easily see that the top three carrier is UA, B6, and EV which has the most flight counts shows that UA, B6 and EV have the most flight frequency during the whole year in 2013. And OO has the shortest bar in plot which shows this carrier only have a few flights during the whole year in 2013. If you wanna choose a more reliable carrier for their travelling, I suggest to choose a carrier with more flights and always departure on time. I am going to create another plot that shows the departure delay of each carrier. And we can put these two plots together to find a more reliable carrier for travelling.** 
+
+
+
+# Heading 2: Flights Departure Delay
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
+ggplot(flights, aes(x = carrier, y = dep_delay)) +
+  geom_bar(stat = "summary", fun = "median", fill = "hotpink", color = "skyblue") +
+  labs(title = "Flight Departure Delays by Different Carriers",
+       x = "Carrier",
+       y = "Departure Delay (minutes)") +
+ theme(axis.text.x = element_text(size =12),
+axis.text.y = element_text(size =12))
+```
+
+
+
+This bar plot illustrates the median departure delays across different carriers departing from New York City airports in 2013 from the R package *nycflights13*.The focus of the analysis is on flight departure delays by different carriers. Each bar represents a different airline, with the height of the bar indicating the median departure delay in minutes. This bar plot shows the median departure delay for each carrier because there are some *outliers* through the whole dataset. By examining this graphic, users can identify carriers with shorter or longer departure delays.
+
+- Motivation: This information can be instrumental for users in making decisions regarding carrier choices, as well as for industry stakeholders in optimizing operational efficiency and customer satisfaction.
+
+- Context: Provided by different carriers and the Minutes of Departure Delay time of each carrier in 2013. 
+
+- The reason why I chose bar plot because bar plots effectively display the central tendency of departure delays for each carrier. And bar plots offer clear visual contrast between different categories (in this case, different carriers), making it easy to compare departure delays across airlines at a glance. 
+
+- Size: Larger text size ensures that axis labels are prominent and legible, even when the plot is viewed from a distance or on smaller screens.
+
+- Color: By using contrasting colors makes it easier for viewers to differentiate between the bars and draws attention to the data. 
+
+- Visual cues: For this bar plot, each carrier has its own bar and each bar is different in height and direction because each carrier has different departure delay minutes median in 2013, so the visual cues are position, length, and direction. 
+
+
+**From this graphic, we can easily recognize that the upwards bars are the actual departure time is later than scheduled departure time. By contrast, those downwards bars are actual departure time earlier than the scheduled departure time. Now we can see that WN, Fl, and F9 are usually departure later than the scheduled time. By contrast, OO, US, and HA are the first three carriers that usually departure earlier than the scheduled departure time. OO is departure most earliest in these carriers. In addition, UA and VX are the only two carriers that usually departure on time.** 
+
+
+
+# Summarize
+
+
+By seeing these two plots which show the flights frequency and the flight departure delay time of different carriers, we can know more about each carrier. If we combine these two plots and analyzing them together, it's not difficult to find that UA carrier has the most fights frequency and usually departure on time. It is no doubt that UA carrier is the best choice if you wanna choose a reliable carrier that always departure on time (no earlier and no delay) . If you wanna get more information about UA carrier in recent years, find more resources! 
